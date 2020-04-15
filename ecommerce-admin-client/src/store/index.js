@@ -25,12 +25,13 @@ export default new Vuex.Store({
   },
   actions: {
     Login (context, payload) {
+      console.log(payload)
       return axios({
         url: 'http://localhost:3000/user/login',
         method: 'POST',
         data: {
-          Email: payload.email,
-          Password: payload.password
+          Email: payload.Email,
+          Password: payload.Password
         }
       })
     },
@@ -52,6 +53,12 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       })
+        .then(result => {
+          commit('SET_PRODUCTS', result.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     AddProduct (context, payload) {
       return axios({
@@ -59,6 +66,12 @@ export default new Vuex.Store({
         method: 'POST',
         headers: {
           access_token: localStorage.getItem('access_token')
+        },
+        data: {
+          Name: payload.Name,
+          Image_Url: payload.Image_Url,
+          Price: payload.Price,
+          Stock: payload.Stock
         }
       })
     },
@@ -79,7 +92,7 @@ export default new Vuex.Store({
     },
     DeleteProduct (context, payload) {
       return axios({
-        url: `http://localhost:3000/product/${payload.id}`,
+        url: `http://localhost:3000/product/${payload}`,
         method: 'DELETE',
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -88,7 +101,7 @@ export default new Vuex.Store({
     },
     FetchDetail (context, payload) {
       return axios({
-        url: `http://localhost:3000/product/${payload.id}`,
+        url: `http://localhost:3000/product/${payload}`,
         method: 'GET',
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -98,6 +111,8 @@ export default new Vuex.Store({
     Logout ({ commit }) {
       commit('SET_LOGIN', false)
       commit('SET_ADMIN', false)
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('Role')
     }
   },
   modules: {

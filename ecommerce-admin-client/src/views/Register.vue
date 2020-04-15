@@ -20,7 +20,7 @@
             <b-form-group id="input-group-2" label="Password:" label-for="input-2">
                 <b-form-input
                 id="input-2"
-                v-model="form.name"
+                v-model="form.password"
                 type='password'
                 required
                 placeholder="Enter Password"
@@ -49,7 +49,22 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      alert(JSON.stringify(this.form))
+      this.$Progress.start()
+      const payload = {
+        Email: this.form.email,
+        Password: this.form.password
+      }
+      this.$store.dispatch('Register', payload)
+        .then(result => {
+          this.$Progress.finish()
+          this.$toasted.show('Register Success! Please Login')
+          this.$router.push('/login')
+        })
+        .catch(err => {
+          this.$Progress.finish()
+          this.$toasted.show('Register Failed!')
+          console.log(err)
+        })
     },
     onReset (evt) {
       evt.preventDefault()

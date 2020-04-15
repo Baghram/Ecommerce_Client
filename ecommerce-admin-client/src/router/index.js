@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Product from '../views/Products.vue'
 import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
+import AdminProduct from '../views/AdminProduct.vue'
+import AddProduct from '../views/AddProduct.vue'
+import AdminTable from '../views/AdminTable'
+import UpdateProduct from '../views/UpdateProduct.vue'
+import Preview from '../components/PreviewCard.vue'
 
 Vue.use(VueRouter)
 
@@ -14,19 +17,47 @@ const routes = [
     component: Home
   },
   {
-    path: '/product',
-    name: 'Product',
-    component: Product
+    path: '/admin',
+    component: AdminProduct,
+    beforeEnter: (to, from, next) => {
+      const accessToken = localStorage.getItem('access_token')
+      const Role = localStorage.getItem('Role')
+      if (accessToken) {
+        if (Role === 'Admin') {
+          next()
+        } else {
+          next({ path: '/' })
+        }
+      } else {
+        next({ path: '/' })
+      }
+    },
+    children: [
+      {
+        path: '',
+        name: 'AdminTable',
+        component: AdminTable
+      },
+      {
+        path: 'add',
+        name: 'AddProduct',
+        component: AddProduct
+      },
+      {
+        path: ':id',
+        name: 'UpdateProduct',
+        component: UpdateProduct
+      },
+      {
+        path: 'preview/:id',
+        name: 'Preview',
+        component: Preview
+      }]
   },
   {
     path: '/login',
     name: 'Login',
     component: Login
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register
   },
   {
     path: '/about',

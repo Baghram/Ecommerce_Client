@@ -1,6 +1,7 @@
 <template>
   <div>
     <navbar/>
+    <vue-progress-bar></vue-progress-bar>
     <router-view/>
   </div>
 </template>
@@ -16,6 +17,21 @@ export default {
   },
   components: {
     navbar
+  },
+  created () {
+    const Role = localStorage.getItem('Role')
+    if (localStorage.getItem('access_token')) {
+      this.$store.commit('SET_LOGIN', true)
+      if (Role === 'Admin') {
+        this.$store.commit('SET_ADMIN', true)
+        this.$store.dispatch('FetchData')
+      } else {
+        this.$store.dispatch('Logout')
+        this.$router.push('/login')
+        this.toasted.show('Only Admin Allowed!! Please Login Using Admin ID')
+      }
+    } else {
+    }
   }
 }
 </script>
