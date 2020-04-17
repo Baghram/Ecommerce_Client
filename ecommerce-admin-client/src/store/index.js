@@ -27,7 +27,7 @@ export default new Vuex.Store({
     Login (context, payload) {
       console.log(payload)
       return axios({
-        url: 'http://localhost:3000/user/login',
+        url: 'https://frozen-meadow-20864.herokuapp.com/user/login',
         method: 'POST',
         data: {
           Email: payload.Email,
@@ -37,7 +37,7 @@ export default new Vuex.Store({
     },
     Register (context, payload) {
       return axios({
-        url: 'http://localhost:3000/user/register',
+        url: 'https://frozen-meadow-20864.herokuapp.com/user/register',
         method: 'POST',
         data: {
           Email: payload.email,
@@ -47,7 +47,7 @@ export default new Vuex.Store({
     },
     FetchData ({ commit }) {
       axios({
-        url: 'http://localhost:3000/product/',
+        url: 'https://frozen-meadow-20864.herokuapp.com/product/',
         method: 'GET',
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -62,7 +62,7 @@ export default new Vuex.Store({
     },
     AddProduct (context, payload) {
       return axios({
-        url: 'http://localhost:3000/product/',
+        url: 'https://frozen-meadow-20864.herokuapp.com/product/',
         method: 'POST',
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -77,7 +77,7 @@ export default new Vuex.Store({
     },
     UpdateProduct (context, payload) {
       return axios({
-        url: `http://localhost:3000/product/${payload.id}`,
+        url: `https://frozen-meadow-20864.herokuapp.com/product/${payload.id}`,
         method: 'PATCH',
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -92,7 +92,7 @@ export default new Vuex.Store({
     },
     DeleteProduct (context, payload) {
       return axios({
-        url: `http://localhost:3000/product/${payload}`,
+        url: `https://frozen-meadow-20864.herokuapp.com/product/${payload}`,
         method: 'DELETE',
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -101,7 +101,7 @@ export default new Vuex.Store({
     },
     FetchDetail (context, payload) {
       return axios({
-        url: `http://localhost:3000/product/${payload}`,
+        url: `https://frozen-meadow-20864.herokuapp.com/product/${payload}`,
         method: 'GET',
         headers: {
           access_token: localStorage.getItem('access_token')
